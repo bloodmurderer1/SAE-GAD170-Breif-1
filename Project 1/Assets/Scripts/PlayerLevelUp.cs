@@ -7,11 +7,12 @@ public class PlayerLevelUp : MonoBehaviour
     //The base move and turn speed
     public float moveSpeed = 1f;
     public float turnSpeed = 45f;
+    public float jumpHeight = 10f;
 
     //The move and turn speed with the buffs you have from leveling up.   
     public float currentMoveSpeed;
     public float currentTurnSpeed;
-
+    public float currentJumpHeight;
 
 
     public float xp = 0;	// Amount of XP the player has
@@ -24,6 +25,7 @@ public class PlayerLevelUp : MonoBehaviour
         SetXpForNextLevel();
         SetCurrentMoveSpeed();
         SetCurrentTurnSpeed();
+        SetCurrentJumpHeight();
     }
 
     void SetXpForNextLevel()
@@ -46,6 +48,12 @@ public class PlayerLevelUp : MonoBehaviour
         Debug.Log("currentTurnSpeed = " + currentTurnSpeed);
     }
 
+    void SetCurrentJumpHeight()
+    {
+        currentJumpHeight = this.jumpHeight + (this.jumpHeight * (level * 0.1f));
+        Debug.Log("currentJumpHeight = " + currentJumpHeight);
+    }
+
     void LevelUp()
     {
         xp = 0f;
@@ -54,11 +62,12 @@ public class PlayerLevelUp : MonoBehaviour
         SetXpForNextLevel();
         SetCurrentMoveSpeed();
         SetCurrentTurnSpeed();
+        SetCurrentJumpHeight();
 
     }
 
     //a function to make the player gain the ammount of Xp the you tell it. 
-    void GainXP(int xpToGain)
+    public void GainXP(int xpToGain)
     {
         xp += xpToGain;
         Debug.Log("Gained " + xpToGain + " XP, Current Xp = " + xp + ", XP needed to reach next Level = " + xpForNextLevel);
@@ -87,5 +96,10 @@ public class PlayerLevelUp : MonoBehaviour
         // Identify this position, set the vertical axis as the axis to rotate around the set the rotation speed.
         if (Input.GetKey(KeyCode.RightArrow) == true) { this.transform.RotateAround(this.transform.position, Vector3.up, currentTurnSpeed * Time.deltaTime); }
         if (Input.GetKey(KeyCode.LeftArrow) == true) { this.transform.RotateAround(this.transform.position, Vector3.up, -currentTurnSpeed * Time.deltaTime); }
+
+        if (Input.GetKey(KeyCode.Space) == true && Mathf.Abs(this.GetComponent<Rigidbody>().velocity.y) < 0.01f)
+        {
+            this.GetComponent<Rigidbody>().velocity += Vector3.up * this.jumpHeight;
+        }
     }
 }

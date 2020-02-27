@@ -20,6 +20,13 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(this.gameObject);
+        if(other.tag == "Character")
+        {
+            other.GetComponent<PlayerLevelUp>().GainXP(1);
+            Destroy(this.gameObject);
+
+        }
+        
     }
+
 }

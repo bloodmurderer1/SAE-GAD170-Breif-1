@@ -8,12 +8,12 @@ public class CameraController : MonoBehaviour
 
     public Vector3 offset;
 
-    public bool useOffsetValues;
+   // public bool useOffsetValues;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (!useOffsetValues)
+       // if (!useOffsetValues)
         {
             offset = target.position - transform.position;
         }
@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = target.position - offset;
+        //transform.position = target.position - offset;
 
         transform.LookAt(target);
     }
